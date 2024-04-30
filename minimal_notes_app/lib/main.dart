@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 void main() async {
   // Khởi tạo Note sử dụng Isar Database
-  WidgetsFlutterBinding.ensureInitialized;
+  WidgetsFlutterBinding.ensureInitialized();
   await NoteDatabase.initialize();
 
   runApp(
