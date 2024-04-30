@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:minimal_notes_app/models/note_database.dart';
 import 'package:minimal_notes_app/pages/notes_page.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const MainApp());
+void main() async {
+  // Khởi tạo Note sử dụng Isar Database
+  WidgetsFlutterBinding.ensureInitialized;
+  await NoteDatabase.initialize();
+
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => NoteDatabase(),
+      child: const MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {

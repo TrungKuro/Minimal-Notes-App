@@ -1,9 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:minimal_notes_app/models/note.dart';
 import 'package:path_provider/path_provider.dart';
 
 /// Các tính năng cho Note trên Database
-class NoteDatabase {
+class NoteDatabase extends ChangeNotifier {
   /* ----------------------------------------------------------------------- */
 
   static late Isar isar;
@@ -39,6 +40,9 @@ class NoteDatabase {
     // Để tránh trùng lặp các Note, ta cần xoá hết danh sách cũ và nạp danh sách mới
     currentNotes.clear();
     currentNotes.addAll(fetchedNotes);
+
+    // Thông báo cho những Widget khác đang lắng nghe, về sự thay đổi trạng thái này, để màn hình cập nhập lại
+    notifyListeners();
   }
 
   /* ----------------------------------------------------------------------- */
