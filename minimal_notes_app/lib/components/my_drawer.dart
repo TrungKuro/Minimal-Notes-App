@@ -14,9 +14,11 @@ class MyDrawer extends StatelessWidget {
           // HEADER
           const DrawerHeader(
             child: Icon(
-              Icons.note,
+              Icons.edit,
             ),
           ),
+          const SizedBox(height: 25),
+
           // NOTES TILE
           DrawerTile(
             tile: 'Notes',
