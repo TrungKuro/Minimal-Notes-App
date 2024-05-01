@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:minimal_notes_app/components/my_drawer.dart';
 import 'package:minimal_notes_app/models/note.dart';
 import 'package:minimal_notes_app/models/note_database.dart';
 import 'package:provider/provider.dart';
@@ -102,11 +104,14 @@ class _NotesPageState extends State<NotesPage> {
     List<Note> currentNodes = noteDatabase.currentNotes;
 
     return Scaffold(
+      /* ----------------------------- Top App ----------------------------- */
       appBar: AppBar(
-        title: const Text('Notes'),
-        backgroundColor: Colors.amber, //!
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        foregroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
-      backgroundColor: Colors.grey.shade300,
+      drawer: const MyDrawer(),
+      /* ---------------------------- Bottom App --------------------------- */
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         child: Container(height: 50.0),
@@ -119,31 +124,52 @@ class _NotesPageState extends State<NotesPage> {
         child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      body: ListView.builder(
-        itemCount: currentNodes.length,
-        itemBuilder: (context, index) {
-          // Get individual note
-          final note = currentNodes[index];
-          // List tile UI
-          return ListTile(
-            title: Text(note.text),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Edit Button
-                IconButton(
-                  onPressed: () => updateNote(note),
-                  icon: const Icon(Icons.edit),
-                ),
-                // Delete Button
-                IconButton(
-                  onPressed: () => deleteNote(note.id),
-                  icon: const Icon(Icons.delete),
-                ),
-              ],
+      /* ---------------------------- Center App --------------------------- */
+      backgroundColor: Theme.of(context).colorScheme.background,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // HEADING
+          Padding(
+            padding: const EdgeInsets.only(left: 25),
+            child: Text(
+              'Notes',
+              style: GoogleFonts.dmSerifText(
+                fontSize: 48,
+                color: Theme.of(context).colorScheme.inversePrimary,
+              ),
             ),
-          );
-        },
+          ),
+          // LIST OF NOTES
+          Expanded(
+            child: ListView.builder(
+              itemCount: currentNodes.length,
+              itemBuilder: (context, index) {
+                // Get individual note
+                final note = currentNodes[index];
+                // List tile UI
+                return ListTile(
+                  title: Text(note.text),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Edit Button
+                      IconButton(
+                        onPressed: () => updateNote(note),
+                        icon: const Icon(Icons.edit),
+                      ),
+                      // Delete Button
+                      IconButton(
+                        onPressed: () => deleteNote(note.id),
+                        icon: const Icon(Icons.delete),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
