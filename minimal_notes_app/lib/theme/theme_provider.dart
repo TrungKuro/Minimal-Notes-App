@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:minimal_notes_app/theme/theme.dart';
 
-class ThemeProvider with ChangeNotifier {
+class ThemeProvider extends ChangeNotifier {
   // Chế độ "Light Mode" được sử dụng mặc định khi khởi động ứng dụng
   ThemeData _themeData = lightMode;
 
@@ -18,11 +18,12 @@ class ThemeProvider with ChangeNotifier {
   }
 
   /// Đảo ngược chế độ hiển thị
-  void toggle() {
+  void toggleTheme() {
     if (isDarkMode) {
       _themeData = lightMode;
     } else {
       _themeData = darkMode;
     }
+    notifyListeners();
   }
 }
