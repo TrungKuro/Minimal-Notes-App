@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:minimal_notes_app/components/my_drawer.dart';
+import 'package:minimal_notes_app/components/note_tile.dart';
 import 'package:minimal_notes_app/models/note.dart';
 import 'package:minimal_notes_app/models/note_database.dart';
 import 'package:provider/provider.dart';
@@ -38,6 +39,7 @@ class _NotesPageState extends State<NotesPage> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Create Note'),
+        backgroundColor: Theme.of(context).colorScheme.background,
         content: TextField(
           controller: textController,
         ),
@@ -69,6 +71,7 @@ class _NotesPageState extends State<NotesPage> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Update Note'),
+        backgroundColor: Theme.of(context).colorScheme.background,
         content: TextField(
           controller: textController,
         ),
@@ -114,14 +117,17 @@ class _NotesPageState extends State<NotesPage> {
       /* ---------------------------- Bottom App --------------------------- */
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
-        child: Container(height: 50.0),
+        color: Theme.of(context).colorScheme.secondary,
       ),
       floatingActionButton: FloatingActionButton(
         shape: const CircleBorder(),
-        backgroundColor: Colors.amber,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         onPressed: createNote,
         tooltip: 'Create New Note',
-        child: const Icon(Icons.add),
+        child: Icon(
+          Icons.add,
+          color: Theme.of(context).colorScheme.inversePrimary,
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       /* ---------------------------- Center App --------------------------- */
@@ -148,23 +154,10 @@ class _NotesPageState extends State<NotesPage> {
                 // Get individual note
                 final note = currentNodes[index];
                 // List tile UI
-                return ListTile(
-                  title: Text(note.text),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // Edit Button
-                      IconButton(
-                        onPressed: () => updateNote(note),
-                        icon: const Icon(Icons.edit),
-                      ),
-                      // Delete Button
-                      IconButton(
-                        onPressed: () => deleteNote(note.id),
-                        icon: const Icon(Icons.delete),
-                      ),
-                    ],
-                  ),
+                return NoteTile(
+                  text: note.text,
+                  onEditPressed: () => updateNote(note),
+                  onDeletePressed: () => deleteNote(note.id),
                 );
               },
             ),
